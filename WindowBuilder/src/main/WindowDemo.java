@@ -17,7 +17,11 @@ import javax.swing.UIManager;
 
 import java.awt.Component;
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -29,6 +33,7 @@ import model.MenuBar;
 import model.MenuItem;
 import parser.HTMLparser;
 import pattern.BlackStyleWidgetFactory;
+import pattern.GrayStyleWidgetFactory;
 import pattern.HtmlStrategy;
 import pattern.PlainStrategy;
 import pattern.ShowStrategy;
@@ -122,7 +127,7 @@ public class WindowDemo {
 		
 		
 		//Create Factory
-		WidgetFactory widgetfactory = new BlackStyleWidgetFactory();
+		WidgetFactory widgetfactory = new GrayStyleWidgetFactory();
 		//Create Menu
 		MenuBar menuBar = widgetfactory.createMenuBar();
 
@@ -137,7 +142,7 @@ public class WindowDemo {
 
 		MenuItem menuItem2 = widgetfactory.createMenuItem();
 		menuItem2.setMenuItemText("±×Åé");
-		menuItem2.addActionListener(new StyledEditorKit.BoldAction());
+		menuItem2.addActionListener(new StyledEditorKit.ItalicAction());
 		MenuItem menuItem3 = widgetfactory.createMenuItem();
 		menuItem3.setMenuItemText("©³½u");
 		menuItem3.addActionListener(new StyledEditorKit.UnderlineAction());
@@ -164,7 +169,7 @@ public class WindowDemo {
 		
 		JScrollPane scrollBar2 = new JScrollPane(textArea);
 		
-		File imageCheck = new File("C:\\Users\\a2335\\eclipse-workspace\\WindowBuilder\\src\\main\\bold.png");
+		File imageCheck = new File("C:\\\\Users\\\\a2335\\\\git\\\\HTML-Document-Editor\\\\WindowBuilder\\\\src\\\\main\\\\bold.png");
 
 		if(imageCheck.exists()) 
 		    System.out.println("Image file found!");
@@ -174,23 +179,14 @@ public class WindowDemo {
 		
 		//Open file button	
 		
-		ImageIcon bold = new ImageIcon("C:\\\\Users\\\\a2335\\\\eclipse-workspace\\\\WindowBuilder\\\\src\\\\main\\\\bold.png");
-		bold.setImage(bold.getImage().getScaledInstance(20, 20,Image.SCALE_DEFAULT));
+		ImageIcon bold = new ImageIcon("C:\\Users\\a2335\\git\\HTML-Document-Editor\\WindowBuilder\\src\\main\\bold.png");
+		bold.setImage(bold.getImage().getScaledInstance(10, 10,Image.SCALE_DEFAULT));
 		
 		JButton openButton = new JButton(bold);
 		
 		
 		
-        openButton.addActionListener(new ActionListener() { //Open file
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
-                    // do something
-                }
-            }
-        });
+		//open button listener
         
         JToolBar toolBar = new JToolBar();
         
@@ -248,10 +244,54 @@ public class WindowDemo {
 		
 		
 		//Window Look-And-Feel
-		try { 
-	        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-	        SwingUtilities.updateComponentTreeUI(tabPane);
-	    } catch(Exception ignored){}
+		//try { 
+	    //    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+	    //    SwingUtilities.updateComponentTreeUI(tabPane);
+	    //} catch(Exception ignored){}
+		
+		openButton.addActionListener(new ActionListener() { //Open file
+        	File file;
+        	String text;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                	file = chooser.getSelectedFile(); // do something
+                	
+                	FileReader fr = null;
+					try {
+						fr = new FileReader(file);
+					} catch (FileNotFoundException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+                	BufferedReader reader = new BufferedReader(fr);
+                	String line;
+                	try {
+                		JTextPane textPane = factory.createProduct();
+						JTextArea textArea = new JTextArea();
+						WindowDemo.add(textPane, textArea);
+						while ((line = reader.readLine()) != null)
+						{
+						    if (!line.startsWith(">"))
+						    {
+								textArea.append(line + "\n");
+						    }
+						}
+						textPane.setText(textArea.getText());
+						JScrollPane scrollBar1 = new JScrollPane(textPane);
+						JScrollPane scrollBar2 = new JScrollPane(textArea);
+						tabPane.addTab("newEdit" + (int)(tabPane.getTabCount() + 1), scrollBar1);
+						tabPane.addTab("newHtmlEdit" + (int)(tabPane.getTabCount() + 1), scrollBar2);
+						tabPane.setSelectedIndex(tabPane.getTabCount() - 1);
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+                }
+            }
+        });
 	}
 }
 
