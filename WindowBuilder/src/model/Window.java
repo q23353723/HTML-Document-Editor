@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.JFrame;
+
 import pattern.WindowImp;
 
 public abstract class Window {
@@ -7,5 +9,13 @@ public abstract class Window {
 	
 	public Window(WindowImp imp) {
 		this.windowimp = imp;
+	}
+	
+	public JFrame drawFrame() {
+		return this.windowimp.drawFrame();
+	}
+	
+	public String getSystemName() {
+		return this.windowimp.getSystemName();
 	}
 }

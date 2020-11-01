@@ -7,12 +7,12 @@ import java.awt.Graphics2D;
 
 import javax.swing.Box;
 
-public class BlackMenuBar extends MenuBar{
+public class PurpleMenuBar extends MenuBar{
 	private Color bgColor;
 	
-	public BlackMenuBar() {
-		this.bgColor = Color.BLACK;
-		this.add(Box.createRigidArea(new Dimension(0,30)));
+	public PurpleMenuBar() {
+		this.bgColor = new java.awt.Color(193, 123, 185);
+		this.add(Box.createRigidArea(new Dimension(0,20)));
 	}
 	
 	@Override

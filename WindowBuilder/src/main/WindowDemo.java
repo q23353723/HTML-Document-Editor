@@ -27,22 +27,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.text.StyledEditorKit;
 
-import model.JTextPaneFactory;
+
 import model.MainWindow;
 import model.Menu;
 import model.MenuBar;
 import model.MenuItem;
 import model.Window;
 import parser.HTMLparser;
-import pattern.BlackStyleWidgetFactory;
+
 import pattern.GrayStyleWidgetFactory;
 import pattern.HtmlStrategy;
+import pattern.LinuxWindowImp;
 import pattern.PlainStrategy;
 import pattern.ShowStrategy;
 import pattern.WidgetFactory;
-import model.BlackMenu;
-import model.BlackMenuBar;
-import model.BlackMenuItem;
+import pattern.WinWindowImp;
+import pattern.WindowImp;
+
 import model.CustomJTabbedPaneUI;
 import model.Factory;
 
@@ -60,7 +61,7 @@ public class WindowDemo {
 	private ShowStrategy st;
 //	String[] imgPath = {"/test2/Res/btnClose.png", "/test2/Res/btnClose_Entered.png", "/test2/Res/btnClose_Pressed.png"};//有圖片版本
 	String[] imgPath = null;//無圖片版本
-	
+	public static final WindowImp imp = new WinWindowImp();
     
 	/**
 	 * Launch the application.
@@ -69,7 +70,7 @@ public class WindowDemo {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
+					MainWindow window = new MainWindow(imp);
 					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -160,9 +161,9 @@ public class WindowDemo {
 		
 		frame.setJMenuBar(menuBar);
 		
-		//Factory建造JTextPane
-		Factory factory = new JTextPaneFactory();
-		JTextPane textPane = factory.createProduct();
+		//建造JTextPane
+		JTextPane textPane = new JTextPane();
+		textPane.setContentType("text/html");
 		
 		//Add ScrollBar
 		JScrollPane scrollBar1 = new JScrollPane(textPane);
@@ -274,7 +275,7 @@ public class WindowDemo {
                 	BufferedReader reader = new BufferedReader(fr);
                 	String line;
                 	try {
-                		JTextPane textPane = factory.createProduct();
+                		JTextPane textPane = new JTextPane();
 						JTextArea textArea = new JTextArea();
 						WindowDemo.add(textPane, textArea);
 						while ((line = reader.readLine()) != null)
@@ -314,8 +315,7 @@ class NewTabAction extends AbstractAction {
 	@Override 
  	public void actionPerformed(ActionEvent e) {
 		if(tabPane != null) {
-			factory = new JTextPaneFactory();
-			JTextPane textPane = factory.createProduct();
+			JTextPane textPane = new JTextPane();
 			JTextArea textArea = new JTextArea();
 			WindowDemo.add(textPane, textArea);
 			

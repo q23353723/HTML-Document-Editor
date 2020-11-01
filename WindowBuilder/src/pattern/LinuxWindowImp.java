@@ -3,26 +3,26 @@ package pattern;
 import java.awt.Font;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-public class WinWindowImp implements WindowImp{
-	private Font systemFont = new Font("新細明體", Font.PLAIN, 12);
+public class LinuxWindowImp implements WindowImp {
+	private Font systemFont = new Font("微軟正黑體", Font.PLAIN, 12);
 	private String systemName;
 	
-	public WinWindowImp() {
-		this.systemName = "Windows";
+	public LinuxWindowImp() {
+		this.systemName = "Linux";
 	}
 	
 	public String getSystemName() {
 		return systemName;
 	}
-	
+
+
 	public JFrame drawFrame() {
         
         //Window Look-And-Feel
       	try { 
-      	       UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      	       UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
       	   } catch(Exception ignored){}
       		
         setUIFont();

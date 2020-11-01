@@ -12,7 +12,7 @@ private Color bgColor;
 	
 	public GrayMenuBar() {
 		this.bgColor = Color.GRAY;
-		this.add(Box.createRigidArea(new Dimension(0,30)));
+		this.add(Box.createRigidArea(new Dimension(0,20)));
 	}
 	
 	@Override

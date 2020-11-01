@@ -10,15 +10,17 @@ import javax.swing.JTextPane;
 import main.WindowDemo;
 import model.CustomJTabbedPaneUI;
 import model.Factory;
-import model.JTextPaneFactory;
+import model.MainWindow;
 
 public class TabActionHandler extends AbstractAction {
 	CustomJTabbedPaneUI tabPane = null;
 	Factory factory = null;
+	MainWindow window;
 
-	public TabActionHandler(String label, CustomJTabbedPaneUI tabPane) {
+	public TabActionHandler(String label, CustomJTabbedPaneUI tabPane, MainWindow window) {
 		super(label);
 		this.tabPane = tabPane;
+		this.window = window;
 	}
 	
 		@Override 
@@ -27,10 +29,9 @@ public class TabActionHandler extends AbstractAction {
 			switch(event) {
 				case "增加頁籤"://增加頁籤 之 Action
 					if(tabPane != null) {
-						factory = new JTextPaneFactory();
-						JTextPane textPane = factory.createProduct();
+						JTextPane textPane = new JTextPane();
 						JTextArea textArea = new JTextArea();
-						WindowDemo.add(textPane, textArea);
+						window.add(textPane, textArea);
 						
 						JScrollPane scrollBar1 = new JScrollPane(textPane);
 						JScrollPane scrollBar2 = new JScrollPane(textArea);
