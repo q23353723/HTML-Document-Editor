@@ -28,9 +28,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.text.StyledEditorKit;
 
 import model.JTextPaneFactory;
+import model.MainWindow;
 import model.Menu;
 import model.MenuBar;
 import model.MenuItem;
+import model.Window;
 import parser.HTMLparser;
 import pattern.BlackStyleWidgetFactory;
 import pattern.GrayStyleWidgetFactory;
@@ -67,8 +69,8 @@ public class WindowDemo {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WindowDemo window = new WindowDemo();
-					window.frame.setVisible(true);
+					MainWindow window = new MainWindow();
+					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -204,6 +206,8 @@ public class WindowDemo {
         tabPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);      // 頁籤滿時，多出往前往後之按鈕，以防頁籤變成上下擠之樣貌
         frame.getContentPane().add(tabPane, BorderLayout.CENTER); //將tabPane加進Frame中
         
+        
+        //Strategy
         MenuItem menuItem4 = widgetfactory.createMenuItem();
         menuItem4.setMenuItemText("HTML");
 		menuItem4.addActionListener(new ActionListener() {
@@ -249,6 +253,8 @@ public class WindowDemo {
 	    //    SwingUtilities.updateComponentTreeUI(tabPane);
 	    //} catch(Exception ignored){}
 		
+		
+		//open button listner
 		openButton.addActionListener(new ActionListener() { //Open file
         	File file;
         	String text;

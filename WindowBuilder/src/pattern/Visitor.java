@@ -2,7 +2,6 @@ package pattern;
 
 import model.Body;
 import model.Bold;
-import model.Decorator;
 import model.Image;
 import model.Italic;
 import model.Paragraph;

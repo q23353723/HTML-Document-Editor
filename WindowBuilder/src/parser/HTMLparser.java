@@ -48,6 +48,12 @@ public class HTMLparser {
 		
 		System.out.println("");
 	}
+	
+	public Glyph getGlyphs() {
+		Document doc = Jsoup.parse(html);
+		Element body = doc.body();
+		return iteration(body, "");
+	}
 		
 	//用simple factory來造Glyph
 	//由tag name來決定要造哪一個Glyph

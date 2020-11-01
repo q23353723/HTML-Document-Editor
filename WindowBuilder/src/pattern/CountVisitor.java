@@ -2,7 +2,6 @@ package pattern;
 
 import model.Body;
 import model.Bold;
-import model.Decorator;
 import model.Image;
 import model.Italic;
 import model.Paragraph;
@@ -31,8 +30,6 @@ public class CountVisitor implements Visitor {
 	public void visit(Bold bold) {
 	}
 	public void visit(UnderLine underline) {
-	}
-	public void visit(Decorator decorator) {
 	}
 	public void visit(Image image) {
 	}
