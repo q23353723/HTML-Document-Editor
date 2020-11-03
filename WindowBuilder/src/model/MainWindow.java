@@ -13,6 +13,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.StyledEditorKit;
@@ -35,6 +36,7 @@ import pattern.WindowImp;
 
 public class MainWindow extends Window{
 	private JFrame frame;
+	private boolean Flag = true;
 	//Create Abstract Factory
 	WidgetFactory widgetfactory = WidgetFactoryProducer.getFactory(this.getSystemName());
 	
@@ -186,19 +188,27 @@ public class MainWindow extends Window{
 		openButton.setText("開檔");
 		openButton.addActionListener(buttonActionHandler);
 		
-		ImageIcon save = new ImageIcon("C:\\Users\\a2335\\git\\HTML-Document-Editor\\WindowBuilder\\src\\main\\open-file.png");
-		save.setImage(openfile.getImage().getScaledInstance(15, 15,Image.SCALE_DEFAULT));
+		ImageIcon save = new ImageIcon("C:\\Users\\a2335\\git\\HTML-Document-Editor\\WindowBuilder\\src\\main\\save.png");
+		save.setImage(save.getImage().getScaledInstance(15, 15,Image.SCALE_DEFAULT));
 		JButton saveButton = new JButton(save);
 		saveButton.setText("存檔");
 		saveButton.addActionListener(buttonActionHandler);
 		
+		ImageIcon image = new ImageIcon("C:\\Users\\a2335\\git\\HTML-Document-Editor\\WindowBuilder\\src\\main\\picture.png");
+		image.setImage(image.getImage().getScaledInstance(15, 15,Image.SCALE_DEFAULT));
+		JButton imageButton = new JButton(image);
+		imageButton.setText("圖片");
+		imageButton.addActionListener(buttonActionHandler);
+		
 		
 		toolBar.add(openButton);
         toolBar.add(saveButton);
+        toolBar.add(imageButton);
         
         toolBar.add(boldButton);
         toolBar.add(ItalicButton);
         toolBar.add(underlinedButton);
+
         
         return toolBar;
 	}
@@ -222,28 +232,17 @@ public class MainWindow extends Window{
     		
 	        @Override
 	        public void removeUpdate(DocumentEvent e) {
-	        	CountVisitor countvisitor = new CountVisitor();
-	        	PrintVisitor printvisitor = new PrintVisitor();
-				parser.getString(t.getText());
-				parser.print();
-				parser.getGlyphs().accept(countvisitor);
-				parser.getGlyphs().accept(printvisitor);
-				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));
+	        	setTextPane();
 	        }
 
 	        @Override
 	        public void insertUpdate(DocumentEvent e) {
-	        	CountVisitor countvisitor = new CountVisitor();
-	        	PrintVisitor printvisitor = new PrintVisitor();
-				parser.getString(t.getText());
-				parser.print();
-				parser.getGlyphs().accept(countvisitor);
-				parser.getGlyphs().accept(printvisitor);
-				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));
+	        	setTextPane();
 	        }
 
 	        @Override
 	        public void changedUpdate(DocumentEvent e) {
+	        	setTextPane();
 	        }
 	    });
     }
@@ -255,4 +254,31 @@ public class MainWindow extends Window{
 	public JTextPane getTextPane() {
 		return this.textPane;
 	}
+	
+	public void setTextPane(){
+        if(Flag) {
+            Runnable doAssist = () -> {
+                // 暫停監聽
+            	Flag = false;
+                // 儲存游標狀態
+                int caretPosition = textPane.getCaretPosition();
+                // 執行Visit
+                CountVisitor countvisitor = new CountVisitor();
+	        	PrintVisitor printvisitor = new PrintVisitor();
+	        	parser.getString(textPane.getText());
+				parser.print();
+	        	parser.getGlyphs().accept(countvisitor);
+				parser.getGlyphs().accept(printvisitor);
+				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));
+                // 畫到 editorViewer上
+				System.out.print(textPane.getText());
+                textPane.setText("<html><head></head>" + printvisitor.getHTML() + "</html>");
+                //textPane.setCaretPosition(Math.min(caretPosition, textPane.getDocument().getLength()-1));
+                
+                // 重新監聽
+                Flag = true;
+            };
+            SwingUtilities.invokeLater(doAssist);
+        }
+    }
 }

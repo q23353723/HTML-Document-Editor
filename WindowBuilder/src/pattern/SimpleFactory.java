@@ -2,6 +2,7 @@ package pattern;
 
 import model.Body;
 import model.Glyph;
+import model.Image;
 import model.Paragraph;
 import model.Span;
 

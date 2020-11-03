@@ -10,6 +10,7 @@ import org.jsoup.nodes.TextNode;
 
 import model.Bold;
 import model.Glyph;
+import model.Image;
 import model.Italic;
 import model.UnderLine;
 
@@ -63,7 +64,9 @@ public class HTMLparser {
 					}
 					//glyphs.add(new character(((TextNode)child).text())); // insert character into Glyph
 				}
-				else if(((Element)e).tagName().equals("img")) {
+				else if(((Element) child).tagName().equals("img")) {
+					System.out.print(((Element)child).attr("src"));
+					glyphs.add(new Image(((Element)child).attr("src")));
 					System.out.println("Åª¨ì¤F");
 					//System.out.println(((Element)e).text());
 					//glyphs.add(new Image());

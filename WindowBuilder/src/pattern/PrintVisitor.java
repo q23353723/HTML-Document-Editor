@@ -1,11 +1,9 @@
 package pattern;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import model.Body;
 import model.Bold;
-import model.Decorator;
 import model.Image;
 import model.Italic;
 import model.Paragraph;
@@ -50,6 +48,7 @@ public class PrintVisitor implements Visitor {
 		st.push("<u>" + st.pop() + "</u>");
 	}
 	public void visit(Image image) {
+		st.push("<img src=\"" + image.getAttribute() + " \">");
 	}
 	
 	public String getHTML() {

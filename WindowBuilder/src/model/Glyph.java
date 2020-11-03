@@ -15,6 +15,12 @@ public abstract class Glyph {
     public String getString() {
     	throw new UnsupportedOperationException();
     }
+    public String getAttribute() {
+    	throw new UnsupportedOperationException();
+    }
+    public void setAttribute(String atr) {
+    	throw new UnsupportedOperationException();
+    }
     public Glyph getChild(int i) {
     	throw new UnsupportedOperationException();
     }

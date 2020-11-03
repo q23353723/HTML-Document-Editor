@@ -3,20 +3,15 @@ package model;
 import pattern.Visitor;
 
 public class Image extends Glyph {
-	String url;
+	private String attribute;
 	
-	public Image(String u) {
-		this.url = u;
+	public Image(String atr) {
+		this.attribute = atr;
 	}
-	
+		
 	@Override
-	public String getString() {
-		return this.url;
-	}
-	
-	@Override
-	public void print() {
-		System.out.print("<img src=\"" + url + ">");
+	public String getAttribute() {
+		return this.attribute;
 	}
 	
 	@Override
