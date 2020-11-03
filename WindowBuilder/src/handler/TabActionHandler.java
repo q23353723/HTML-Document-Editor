@@ -31,7 +31,7 @@ public class TabActionHandler extends AbstractAction {
 					if(tabPane != null) {
 						JTextPane textPane = new JTextPane();
 						JTextArea textArea = new JTextArea();
-						window.add(textPane, textArea);
+						window.add(textPane);
 						
 						JScrollPane scrollBar1 = new JScrollPane(textPane);
 						JScrollPane scrollBar2 = new JScrollPane(textArea);

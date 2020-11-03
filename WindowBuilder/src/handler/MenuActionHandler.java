@@ -44,7 +44,7 @@ public class MenuActionHandler implements ActionListener {
 						else if(((JTextPane) Jtp).getContentType().equals("text/plain")) {
 							window.setStrategy(new HtmlStrategy());
 							window.getStrategy().show((JTextPane)Jtp);
-							window.add((JTextPane) Jtp, new JTextArea());
+							window.add((JTextPane) Jtp);
 						}
 					}
 				}

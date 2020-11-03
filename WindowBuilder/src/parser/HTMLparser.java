@@ -33,19 +33,9 @@ public class HTMLparser {
 		
 		Glyph Glyphs = iteration(body, "");
 		
-		System.out.println("print");
-		
 		//Glyphs.print();
 		
-		CountVisitor countVisitor = new CountVisitor();
-		Glyphs.accept(countVisitor);
-		
-		Glyphs.accept(new PrintVisitor());
-		
-		System.out.println(countVisitor.getcharCount());
 		//System.out.print(countVisitor.getwordCount());
-		
-		
 		System.out.println("");
 	}
 	

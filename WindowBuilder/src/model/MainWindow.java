@@ -19,12 +19,14 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.StyledEditorKit.ItalicAction;
 import javax.swing.text.StyledEditorKit.UnderlineAction;
 
+import handler.ButtonActionHandler;
 import handler.MenuActionHandler;
 import handler.TabActionHandler;
 import parser.HTMLparser;
 import pattern.CountVisitor;
 import pattern.GrayStyleWidgetFactory;
 import pattern.HtmlStrategy;
+import pattern.PrintVisitor;
 import pattern.ShowStrategy;
 import pattern.WidgetFactory;
 import pattern.WidgetFactoryProducer;
@@ -33,43 +35,39 @@ import pattern.WindowImp;
 
 public class MainWindow extends Window{
 	private JFrame frame;
-	//Create Factory
+	//Create Abstract Factory
 	WidgetFactory widgetfactory = WidgetFactoryProducer.getFactory(this.getSystemName());
 	
+	//初始化介面元件
 	CustomJTabbedPaneUI tabPane = new CustomJTabbedPaneUI(null);
 	JTextPane textPane = new JTextPane();
+	JLabel status = new JLabel();
 	
+	//建立操作監聽
 	MenuActionHandler menuActionHandler = new MenuActionHandler(this);
+	ButtonActionHandler buttonActionHandler = new ButtonActionHandler(this);
+	
 	//Strategy
 	private ShowStrategy strategy = new HtmlStrategy();
 	
 	HTMLparser parser = new HTMLparser();
 	
-	JLabel status = new JLabel();
-	
 	public MainWindow(WindowImp imp) {
 		super(imp);
-		//Create Frame
+		//由imp實作drawFrame並這邊只負責設定Frame
 		frame = this.drawFrame();
 		frame.setTitle("HTML Editor");
 		frame.setBounds(100, 100, 1080, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		//設定MenuBar
 		frame.setJMenuBar(this.createMenuBar());
 		textPane.setContentType("text/html");
 		
-		//Add ScrollBar
-		JScrollPane scrollBar1 = new JScrollPane(textPane);
-				
-		//debug用
-		JTextArea textArea = new JTextArea();
-				
+		//加上tabPane									
+        frame.getContentPane().add(this.createTabPane(textPane), BorderLayout.CENTER); //將tabPane加進Frame中
 		
-        frame.getContentPane().add(this.createTabPane(scrollBar1), BorderLayout.CENTER); //將tabPane加進Frame中
-		
-		//textPane actionEvent
-		add(textPane,textArea);
-		
+        //加上Label
 		status.setText("字數: 0");
 		frame.getContentPane().add(status, BorderLayout.AFTER_LAST_LINE);
 	}
@@ -99,9 +97,16 @@ public class MainWindow extends Window{
 		
         menuItem4.addActionListener(menuActionHandler);
         
+        MenuItem menuItem6 = widgetfactory.createMenuItem();
+        menuItem6.setMenuItemText("新細明體");
+        
+        menuItem6.addActionListener(new StyledEditorKit.FontFamilyAction("新細明體", "新細明體"));
+        
+        
 		menu.add(menuItem1);
 		menu.add(menuItem2);
 		menu.add(menuItem3);
+		menu.add(menuItem6);
 						
 		Menu menu2 = widgetfactory.createMenu();
 		menu2.setMenuText("切換");
@@ -138,7 +143,11 @@ public class MainWindow extends Window{
         return popMenu;
 	}
 	
-	public CustomJTabbedPaneUI createTabPane(JScrollPane scrollBar1) {
+	public CustomJTabbedPaneUI createTabPane(JTextPane textPane) {
+		//textPane actionEvent
+		add(textPane);
+		JScrollPane scrollBar1 = new JScrollPane(textPane);	
+		
 		//設置 頁籤內容
         tabPane.addTab("EditPage", scrollBar1);
 
@@ -170,6 +179,23 @@ public class MainWindow extends Window{
 		JButton underlinedButton = new JButton(underlined);
 		underlinedButton.addActionListener(new StyledEditorKit.UnderlineAction());
 		
+		
+		ImageIcon openfile = new ImageIcon("C:\\Users\\a2335\\git\\HTML-Document-Editor\\WindowBuilder\\src\\main\\open-file.png");
+		openfile.setImage(openfile.getImage().getScaledInstance(15, 15,Image.SCALE_DEFAULT));
+		JButton openButton = new JButton(openfile);
+		openButton.setText("開檔");
+		openButton.addActionListener(buttonActionHandler);
+		
+		ImageIcon save = new ImageIcon("C:\\Users\\a2335\\git\\HTML-Document-Editor\\WindowBuilder\\src\\main\\open-file.png");
+		save.setImage(openfile.getImage().getScaledInstance(15, 15,Image.SCALE_DEFAULT));
+		JButton saveButton = new JButton(save);
+		saveButton.setText("存檔");
+		saveButton.addActionListener(buttonActionHandler);
+		
+		
+		toolBar.add(openButton);
+        toolBar.add(saveButton);
+        
         toolBar.add(boldButton);
         toolBar.add(ItalicButton);
         toolBar.add(underlinedButton);
@@ -191,36 +217,42 @@ public class MainWindow extends Window{
 		return this.tabPane;
 	}
 	
-	public void add(JTextPane t, JTextArea j) {
+	public void add(JTextPane t) {
     	t.getDocument().addDocumentListener(new DocumentListener() {
-
+    		
 	        @Override
 	        public void removeUpdate(DocumentEvent e) {
-	        	print(e);
+	        	CountVisitor countvisitor = new CountVisitor();
+	        	PrintVisitor printvisitor = new PrintVisitor();
+				parser.getString(t.getText());
+				parser.print();
+				parser.getGlyphs().accept(countvisitor);
+				parser.getGlyphs().accept(printvisitor);
+				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));
 	        }
 
 	        @Override
 	        public void insertUpdate(DocumentEvent e) {
 	        	CountVisitor countvisitor = new CountVisitor();
+	        	PrintVisitor printvisitor = new PrintVisitor();
 				parser.getString(t.getText());
 				parser.print();
 				parser.getGlyphs().accept(countvisitor);
+				parser.getGlyphs().accept(printvisitor);
 				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));
-				print(e);
 	        }
 
 	        @Override
 	        public void changedUpdate(DocumentEvent e) {
-	        	print(e);
 	        }
-	        
-	        private void print(DocumentEvent e) {
-                j.replaceRange(t.getText(), 0, j.getDocument().getLength());
-            }
 	    });
     }
 	
 	public JFrame getFrame() {
 		return this.frame;
+	}
+	
+	public JTextPane getTextPane() {
+		return this.textPane;
 	}
 }

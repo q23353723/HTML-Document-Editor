@@ -15,45 +15,48 @@ import model.character;
 
 public class PrintVisitor implements Visitor {
 	String html = "";
-	String decoratee = "";
 	Stack<String> st = new Stack<String>();
-	ArrayList<String> list = new ArrayList<String>();
 	
 	public void visit(Body body) {
-		System.out.print("<body>");
-		for(String item : list) {
-			System.out.print(item);
+		for(int i = 1; i <= body.getChildSize(); i++) {
+			html = st.pop() + html;
 		}
-		System.out.print("</body>");
+		System.out.print("<body>" + html + "</body>");
 	}
 	public void visit(character c) {
-		html += c.getString();
-		//st.push(c.getString());
+		st.push(c.getString());
 	}
 	public void visit(Paragraph paragraph) {
-		decoratee = decoratee + html;
-		list.add("<p>" + html + "p");
+		for(int i = 1; i <= paragraph.getChildSize(); i++) {
+			html = st.pop() + html;
+		}
+		st.push("<p>" + html + "</p>");
 		html = "";
 	}
 	public void visit(Span span) {
-		list.add(decoratee);
+		for(int i = 1; i <= span.getChildSize(); i++) {
+			html = st.pop() + html;
+		}
+		st.push("<span>" + html + "</span>");
+		html = "";
 	}
 	public void visit(Italic italic) {
-		list.add("<i>" + html + "</i>");
-		html = "";
+		st.push("<i>" + st.pop() + "</i>");
 	}
 	public void visit(Bold bold) {
-		list.add("<b>" + html + "</b>");
-		html = "";
+		st.push("<b>" + st.pop() + "</b>");
 	}
 	public void visit(UnderLine underline) {
-		list.add("<u>" + html + "</u>");
-		html = "";
+		st.push("<u>" + st.pop() + "</u>");
 	}
 	public void visit(Image image) {
 	}
 	
-	public void parsetoHTML() {
-		
+	public String getHTML() {
+		return html;
 	}
 }
+
+//<p>
+//	ab<b><span>c</span></b>defg
+//</p>
