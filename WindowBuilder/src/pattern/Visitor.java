@@ -2,6 +2,7 @@ package pattern;
 
 import model.Body;
 import model.Bold;
+import model.Font;
 import model.Image;
 import model.Italic;
 import model.Paragraph;
@@ -17,5 +18,7 @@ public interface Visitor {
 	void visit(Italic italic);
 	void visit(Bold bold);
 	void visit(UnderLine underline);
+	void visit(Font font);
 	void visit(Image image);
+	
 }

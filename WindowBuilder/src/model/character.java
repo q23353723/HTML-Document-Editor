@@ -15,11 +15,6 @@ public class character extends Glyph {
 	}
 	
 	@Override
-	public void print() {
-		System.out.print(c);
-	}
-	
-	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}

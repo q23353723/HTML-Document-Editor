@@ -41,14 +41,6 @@ public class Paragraph extends Glyph{
 	}
 	
 	@Override
-	public void print() {
-        Iterator iterator = this.getIterator();
-        while (iterator.hasNext()) {
-        	iterator.next().print();
-        }
-    }
-	
-	@Override
 	public void accept(Visitor visitor) {
         Iterator iterator = this.getIterator();
         while (iterator.hasNext()) {

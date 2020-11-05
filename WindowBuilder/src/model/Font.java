@@ -4,20 +4,31 @@ import org.jsoup.nodes.Attributes;
 
 import pattern.Visitor;
 
-public class Image extends Glyph {
+public class Font extends Decorator {
 	private Attributes attributes;
 	
-	public Image(Attributes atr) {
+	public Font(Glyph decoratee){
+		super(decoratee);
+	}
+	
+	@Override
+	public void setAttributes(Attributes atr) {
 		this.attributes = atr;
 	}
-		
+	
 	@Override
 	public Attributes getAttributes() {
 		return this.attributes;
 	}
 	
 	@Override
+	public String getString() {
+		return super.getString();
+	}
+	
+	@Override
 	public void accept(Visitor visitor) {
+		super.accept(visitor);
 		visitor.visit(this);
 	}
 }

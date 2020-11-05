@@ -3,7 +3,6 @@ package pattern;
 import java.awt.Font;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 public class WinWindowImp implements WindowImp{
@@ -22,7 +21,7 @@ public class WinWindowImp implements WindowImp{
         
         //Window Look-And-Feel
       	try { 
-      	       UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      	       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
       	   } catch(Exception ignored){}
       		
         setUIFont();

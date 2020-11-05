@@ -14,13 +14,6 @@ public class Bold extends Decorator {
 	}
 	
 	@Override
-	public void print() {
-		System.out.print("<b>");
-		decoratee.print();
-		System.out.print("</b>");
-	}
-	
-	@Override
 	public void accept(Visitor visitor) {
 		super.accept(visitor);
 		visitor.visit(this);

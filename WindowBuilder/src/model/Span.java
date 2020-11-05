@@ -2,13 +2,20 @@ package model;
 
 import java.util.ArrayList;
 
+import org.jsoup.nodes.Attributes;
+
 import pattern.GlyphListIterator;
 import pattern.Iterator;
 import pattern.Visitor;
 
 public class Span extends Glyph {
-private ArrayList<Glyph> Glyphs = new ArrayList<Glyph>();
+	private ArrayList<Glyph> Glyphs = new ArrayList<Glyph>();
+	private Attributes attributes;
 	
+	public Span(Attributes atr) {
+		this.attributes = atr;
+	}
+
 	@Override
 	public void add(Glyph g) {
 		Glyphs.add(g);
@@ -35,17 +42,14 @@ private ArrayList<Glyph> Glyphs = new ArrayList<Glyph>();
 	}
 	
 	@Override
-	public Iterator getIterator() {
-		return new GlyphListIterator(this);
+	public Attributes getAttributes() {
+		return this.attributes;
 	}
 	
 	@Override
-	public void print() {
-        Iterator iterator = this.getIterator();
-        while (iterator.hasNext()) {
-        	iterator.next().print();
-        }
-    }
+	public Iterator getIterator() {
+		return new GlyphListIterator(this);
+	}
 	
 	@Override
 	public void accept(Visitor visitor) {

@@ -5,8 +5,8 @@ import pattern.Visitor;
 public abstract class Decorator extends Glyph{
 	Glyph decoratee;
 	
-	Decorator(Glyph c){
-		this.decoratee = c;
+	Decorator(Glyph decoratee){
+		this.decoratee = decoratee;
 	}
 	
 	@Override
@@ -15,10 +15,6 @@ public abstract class Decorator extends Glyph{
 	}
 	
 	@Override
-	public void print() {
-		decoratee.print();
-	}
-	
 	public void accept(Visitor visitor) {
 		decoratee.accept(visitor);
 	}

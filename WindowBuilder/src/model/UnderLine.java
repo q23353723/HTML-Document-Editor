@@ -4,19 +4,13 @@ import pattern.Visitor;
 
 public class UnderLine extends Decorator {
 	
-	public UnderLine(Glyph d) {
-		super(d);
-	}
-	
-	public String getString() {
-		return decoratee.getString();
+	public UnderLine(Glyph decoratee) {
+		super(decoratee);
 	}
 	
 	@Override
-	public void print() {
-		System.out.print("<u>");
-		decoratee.print();
-		System.out.print("</u>");
+	public String getString() {
+		return decoratee.getString();
 	}
 	
 	@Override

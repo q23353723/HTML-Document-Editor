@@ -3,6 +3,7 @@ package main;
 import java.awt.EventQueue;
 import model.MainWindow;
 import pattern.LinuxWindowImp;
+import pattern.WinWindowImp;
 import pattern.WindowImp;
 
 

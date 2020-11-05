@@ -3,9 +3,15 @@ package pattern;
 import javax.swing.JTextPane;
 
 public class PlainStrategy implements ShowStrategy{
-	public void show(JTextPane tp) {
-		String st = tp.getText();
-		tp.setContentType("text/plain");
-		tp.setText(st);
+	JTextPane TextPane;
+	
+	public void setTextPane(JTextPane tp) {
+		this.TextPane = tp;
+	}
+	
+	public void show() {
+		String st = TextPane.getText();
+		TextPane.setContentType("text/plain");
+		TextPane.setText(st);
 	}
 }

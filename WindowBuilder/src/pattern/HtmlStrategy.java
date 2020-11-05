@@ -3,11 +3,15 @@ package pattern;
 import javax.swing.JTextPane;
 
 public class HtmlStrategy implements ShowStrategy{
+	JTextPane TextPane;
 	
+	public void setTextPane(JTextPane tp) {
+		this.TextPane = tp;
+	}
 	
-	public void show(JTextPane tp) {
-		String st = tp.getText();
-		tp.setContentType("text/html");
-		tp.setText(st);
+	public void show() {
+		String st = TextPane.getText();
+		TextPane.setContentType("text/html");
+		TextPane.setText(st);
 	}
 }

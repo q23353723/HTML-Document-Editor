@@ -1,6 +1,8 @@
 package model;
 
 
+import org.jsoup.nodes.Attributes;
+
 import pattern.Iterator;
 import pattern.Visitor;
 
@@ -15,10 +17,10 @@ public abstract class Glyph {
     public String getString() {
     	throw new UnsupportedOperationException();
     }
-    public String getAttribute() {
+    public Attributes getAttributes() {
     	throw new UnsupportedOperationException();
     }
-    public void setAttribute(String atr) {
+    public void setAttributes(Attributes attributes) {
     	throw new UnsupportedOperationException();
     }
     public Glyph getChild(int i) {
@@ -30,9 +32,6 @@ public abstract class Glyph {
     public Iterator getIterator() {
     	throw new UnsupportedOperationException();
 	}
-    public void print() {
-    	throw new UnsupportedOperationException();
-    } 
     public void accept(Visitor visitor) {
     	throw new UnsupportedOperationException();
     } 

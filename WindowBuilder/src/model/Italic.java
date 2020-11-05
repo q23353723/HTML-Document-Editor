@@ -4,19 +4,12 @@ import pattern.Visitor;
 
 public class Italic extends Decorator {
 	
-	public Italic(Glyph d){
-		super(d);
+	public Italic(Glyph decoratee){
+		super(decoratee);
 	}
 	
 	public String getString() {
 		return decoratee.getString();
-	}
-
-	@Override
-	public void print() {
-		System.out.print("<i>");
-		decoratee.print();
-		System.out.print("</i>");
 	}
 	
 	@Override
