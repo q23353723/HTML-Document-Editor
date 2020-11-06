@@ -64,6 +64,7 @@ public class FileActionHandler implements ActionListener {
                 		JTextPane textPane = new JTextPane();
                 		textPane.setContentType("text/html");
 						window.add(textPane);
+						textPane.addKeyListener(new KeyActionHandler(textPane));
 						while ((line = reader.readLine()) != null)
 						{
 						    if (!line.startsWith(">"))
@@ -100,7 +101,7 @@ public class FileActionHandler implements ActionListener {
 						else {
 							writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
 						}
-						writer.write(window.getTextPane().getText());
+						writer.write(((JTextPane)((JScrollPane)window.getTabPane().getSelectedComponent()).getViewport().getView()).getText());
 						writer.close();
 						JOptionPane.showMessageDialog(window.getFrame(), "The Message was Saved Successfully!","Success!", JOptionPane.INFORMATION_MESSAGE);
 				    } catch (IOException e) {

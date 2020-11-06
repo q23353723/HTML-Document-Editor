@@ -26,6 +26,7 @@ public class CountVisitor implements Visitor {
 	public void visit(UnderLine underline) {}
 	public void visit(Image image) {}
 	public void visit(Font font) {}
+
 	public int getcharCount() {
 		return charCount;
 	}

@@ -394,6 +394,9 @@ public class MainWindow extends Window{
             Runnable doAssist = () -> {
                 // 暫停監聽
             	Flag = false;
+            	
+            	int caretPosition = jtp.getCaretPosition();
+            	
                 // 執行Visit
                 CountVisitor countvisitor = new CountVisitor();
 	        	PrintVisitor printvisitor = new PrintVisitor();
@@ -406,6 +409,8 @@ public class MainWindow extends Window{
                 // 將Glyph parse to HTML並set到TextPane
 				
 				jtp.setText("<html><head></head>" + printvisitor.getHTML() + "</html>");
+				
+				jtp.setCaretPosition(Math.min(caretPosition, jtp.getDocument().getLength()-1));
                 // 重新監聽
                 Flag = true;
             };
