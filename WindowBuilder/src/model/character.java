@@ -1,8 +1,6 @@
 package model;
 
-import org.jsoup.nodes.Attributes;
 
-import pattern.Iterator;
 import pattern.Visitor;
 
 public class character extends Glyph {

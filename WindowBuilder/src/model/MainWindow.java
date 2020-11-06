@@ -410,7 +410,7 @@ public class MainWindow extends Window{
 				
 				jtp.setText("<html><head></head>" + printvisitor.getHTML() + "</html>");
 				
-				jtp.setCaretPosition(Math.min(caretPosition, jtp.getDocument().getLength()-1));
+				jtp.setCaretPosition(Math.min(caretPosition, jtp.getDocument().getLength()));
                 // ­«·sºÊÅ¥
                 Flag = true;
             };
