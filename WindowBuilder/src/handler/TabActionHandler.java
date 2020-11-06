@@ -28,7 +28,7 @@ public class TabActionHandler extends AbstractAction {
 						JTextPane textPane = new JTextPane();
 						textPane.setContentType("text/html");
 						window.add(textPane);
-						window.addKeyListener(textPane);
+						textPane.addKeyListener(new KeyActionHandler(textPane));
 						
 						JScrollPane scrollBar1 = new JScrollPane(textPane);
 

@@ -3,12 +3,7 @@ package model;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
 
-import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,16 +13,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
+
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
+
 import javax.swing.text.StyledEditorKit;
-import javax.swing.text.html.HTMLDocument;
+
 
 import handler.BackgroundColorAction;
 import handler.FileActionHandler;
+import handler.KeyActionHandler;
 import handler.MenuActionHandler;
 import handler.TabActionHandler;
 import parser.HTMLparser;
@@ -54,7 +50,6 @@ public class MainWindow extends Window{
 	private MenuActionHandler menuActionHandler = new MenuActionHandler(this);
 	private FileActionHandler fileActionHandler = new FileActionHandler(this);
 	
-	
 	//Strategy
 	private ShowStrategy showStrategy;
 	
@@ -75,30 +70,13 @@ public class MainWindow extends Window{
 		
 		//加上tabPane									
         frame.getContentPane().add(this.createTabPane(textPane), BorderLayout.CENTER); //將tabPane加進Frame中
-		
-        this.addKeyListener(textPane);
         
         //加上Label
 		status.setText("字數: 0");
 		frame.getContentPane().add(status, BorderLayout.AFTER_LAST_LINE);
 		
-		//Test
-		textPane.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), new AbstractAction(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	HTMLDocument doc = (HTMLDocument) textPane.getDocument();
-		    	  try {
-		    		  //doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), "&nbsp;");
-		    		  textPane.getDocument().insertString(textPane.getCaretPosition(),"&nbsp;", null);
-				} catch (BadLocationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} 
-            }
-        });
+		textPane.addKeyListener(new KeyActionHandler(textPane));
 	}
-	
-	
 	
 	//Create MenuBar
 	public MenuBar createMenuBar() {
@@ -410,33 +388,8 @@ public class MainWindow extends Window{
 		return this.textPane;
 	}
 	
-	//判斷是否按下enter鍵
-	public void addKeyListener(JTextPane jtp) {
-		jtp.addKeyListener(new KeyAdapter() { 
-			@Override 
-		     public void keyPressed(KeyEvent e) { 
-				if(jtp.getContentType().equals("text/html")) {
-					if (e.getKeyCode() == 10) {
-				    	  HTMLDocument doc = (HTMLDocument) jtp.getDocument();
-				    	  try {
-							doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), "<p> </p>");
-						} catch (BadLocationException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-				      }
-				}
-		     } 
-		    }); 
-	}
-	
 	//當每次觸發action時將Glyph parse成HTML設定到TextPane上
 	public void setTextPane(JTextPane jtp){
-		HTMLparser parser = new HTMLparser(jtp.getText());
-		parser.parseToGlyph();
         if(Flag) {
             Runnable doAssist = () -> {
                 // 暫停監聽
@@ -445,6 +398,8 @@ public class MainWindow extends Window{
                 CountVisitor countvisitor = new CountVisitor();
 	        	PrintVisitor printvisitor = new PrintVisitor();
 	        	
+	        	HTMLparser parser = new HTMLparser(jtp.getText());
+	    		parser.parseToGlyph();
 	        	parser.getGlyphs().accept(countvisitor);
 				parser.getGlyphs().accept(printvisitor);
 				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));

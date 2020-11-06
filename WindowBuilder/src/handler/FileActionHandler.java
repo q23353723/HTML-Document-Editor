@@ -83,12 +83,13 @@ public class FileActionHandler implements ActionListener {
                 break;
 			case "¦sÀÉ":
 				JFileChooser saveChooser = new JFileChooser();
-				BufferedWriter writer = null;
+				saveChooser.setFileFilter(new FileNameExtensionFilter("HTML", "*.html", "*.htm"));
+				saveChooser.addChoosableFileFilter(new FileNameExtensionFilter("¯Â¤å¦r", "*.txt"));
 				
 				if (saveChooser.showOpenDialog(window.getFrame()) == JFileChooser.APPROVE_OPTION) {
 					try {
 						File file = saveChooser.getSelectedFile();
-						writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+						BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
 						writer.write(window.getTextPane().getText());
 						writer.close();
 						JOptionPane.showMessageDialog(window.getFrame(), "The Message was Saved Successfully!","Success!", JOptionPane.INFORMATION_MESSAGE);
