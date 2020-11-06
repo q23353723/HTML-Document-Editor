@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class CustomJTabbedPaneUI extends JTabbedPane {
-    String[] imgPath = null;
+    private String[] imgPath = null;
     
     public CustomJTabbedPaneUI() {}
     

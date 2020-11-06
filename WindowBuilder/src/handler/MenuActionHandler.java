@@ -18,8 +18,8 @@ import pattern.PlainStrategy;
 
 
 public class MenuActionHandler implements ActionListener {
-	CustomJTabbedPaneUI tabPane = null;
-	MainWindow window;
+	private CustomJTabbedPaneUI tabPane = null;
+	private MainWindow window;
 	
 	public MenuActionHandler(MainWindow window) {
 		this.tabPane = window.getTabPane();

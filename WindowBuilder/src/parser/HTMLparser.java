@@ -8,37 +8,31 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
+import model.Character;
 import model.Bold;
 import model.Font;
 import model.Glyph;
 import model.Italic;
 import model.UnderLine;
 
-import model.character;
 import pattern.SimpleFactory;
 
 public class HTMLparser {
 	private String html;
-	private Glyph Glyphs;
 	
 	public HTMLparser(String html) {
 		this.html = html;
 	}
 	
 	//將HTML parse to Glyph
-	public void parseToGlyph() {
+	public Glyph parseToGlyph() {
 		Document doc = Jsoup.parse(html);
 		Element body = doc.body();
 		
-		Glyphs = iteration(body, "");
-		
-		System.out.println("");
+		System.out.println();
+		return iteration(body);	
 	}
-	
-	public Glyph getGlyphs() {
-		return Glyphs;
-	}
-		
+			
 	//用simple factory來造Glyph
 	//由tag name來決定要造哪一個Glyph
 	//為node建標籤
@@ -46,20 +40,20 @@ public class HTMLparser {
 	//  標籤insert小孩的標籤
 	//return 標籤
 	
-	public Glyph iteration(Node e, String spacer) {
+	public Glyph iteration(Node e) {
 		if(e instanceof Element) { //if node is Element
 			Glyph glyphs = SimpleFactory.createGlyph(((Element)e).tagName(),((Element)e).attributes()); //Create Glyph by tag name of Element
 			for(Node child: e.childNodes()) { //foreach node child
 				if(child instanceof TextNode && child != null) { // if child is textnode
 					for(String c: eliminateBlank(((TextNode)child).toString()).split("")) {
 						if(c.equals(" ")) {
-							glyphs.add(new character("&nbsp;"));
+							glyphs.add(new Character("&nbsp;"));
 						}
-						else glyphs.add(new character(c));
+						else glyphs.add(new Character(c));
 					}
 				}
 				else {
-					glyphs.add(iteration(child, " ")); 
+					glyphs.add(iteration(child)); 
 				}
 			}
 			

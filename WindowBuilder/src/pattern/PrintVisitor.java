@@ -12,11 +12,11 @@ import model.Italic;
 import model.Paragraph;
 import model.Span;
 import model.UnderLine;
-import model.character;
+import model.Character;
 
 public class PrintVisitor implements Visitor {
-	String html = "";
-	Stack<String> st = new Stack<String>();
+	private String html = "";
+	private Stack<String> st = new Stack<String>();
 	
 	public void visit(Body body) {
 		for(int i = 1; i <= body.getChildSize(); i++) {
@@ -25,7 +25,7 @@ public class PrintVisitor implements Visitor {
 		System.out.print("<body>" + html + "</body>");
 	}
 	
-	public void visit(character c) {
+	public void visit(Character c) {
 		st.push(c.getString());
 	}
 	

@@ -8,13 +8,13 @@ import model.Italic;
 import model.Paragraph;
 import model.Span;
 import model.UnderLine;
-import model.character;
+import model.Character;
 
 public class CountVisitor implements Visitor {
 	private int charCount = 0;
 	
 	public void visit(Body body) {}
-	public void visit(character c) {
+	public void visit(Character c) {
 		if(!c.getString().equals(" ")) {
 			this.charCount++;
 		}

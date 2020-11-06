@@ -10,8 +10,8 @@ import model.CustomJTabbedPaneUI;
 import model.MainWindow;
 
 public class TabActionHandler extends AbstractAction {
-	CustomJTabbedPaneUI tabPane = null;
-	MainWindow window;
+	private CustomJTabbedPaneUI tabPane = null;
+	private MainWindow window;
 
 	public TabActionHandler(String label, MainWindow window) {
 		super(label);

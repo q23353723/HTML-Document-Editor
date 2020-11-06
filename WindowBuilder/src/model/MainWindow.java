@@ -39,7 +39,7 @@ public class MainWindow extends Window{
 	private JFrame frame;
 	private static boolean Flag = true;
 	//Create Abstract Factory
-	WidgetFactory widgetfactory = WidgetFactoryProducer.getFactory(this.getSystemName());
+	private WidgetFactory widgetfactory = WidgetFactoryProducer.getFactory(this.getSystemName());
 	
 	//初始化介面元件
 	private CustomJTabbedPaneUI tabPane = new CustomJTabbedPaneUI(null);
@@ -254,7 +254,7 @@ public class MainWindow extends Window{
 	
 	
 	
-	public JPopupMenu createPopupMenu(CustomJTabbedPaneUI tabPane) {
+	public JPopupMenu createPopupMenu() {
 		//設置 增加頁籤 與 關閉全部頁籤 之 Menu
         JPopupMenu popMenu = new JPopupMenu();
         popMenu.add(new TabActionHandler("增加頁籤", this));
@@ -273,7 +273,7 @@ public class MainWindow extends Window{
         tabPane.addTab("EditPage", scrollBar1);
 
 		//設置 增加頁籤 與 關閉全部頁籤 之 Menu
-        tabPane.setComponentPopupMenu(this.createPopupMenu(tabPane));
+        tabPane.setComponentPopupMenu(this.createPopupMenu());
         
         tabPane.setSelectedIndex(0);                 // 預設顯示
         tabPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);      // 頁籤滿時，多出往前往後之按鈕，以防頁籤變成上下擠之樣貌
@@ -402,9 +402,9 @@ public class MainWindow extends Window{
 	        	PrintVisitor printvisitor = new PrintVisitor();
 	        	
 	        	HTMLparser parser = new HTMLparser(jtp.getText());
-	    		parser.parseToGlyph();
-	        	parser.getGlyphs().accept(countvisitor);
-				parser.getGlyphs().accept(printvisitor);
+	    		Glyph Glyphs = parser.parseToGlyph();
+	    		Glyphs.accept(countvisitor);
+	    		Glyphs.accept(printvisitor);
 				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));
                 // 將Glyph parse to HTML並set到TextPane
 				

@@ -17,7 +17,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 //客製 關閉頁籤 的按鈕內容
 class CloseButton extends JButton implements MouseListener {
- String[] imgPath = null;
+ private String[] imgPath = null;
  
  public CloseButton(String[] imgPath) {
      this.imgPath = imgPath;

@@ -3,7 +3,7 @@ package pattern;
 import javax.swing.JTextPane;
 
 public class PlainStrategy implements ShowStrategy{
-	JTextPane TextPane;
+	private JTextPane TextPane;
 	
 	public void setTextPane(JTextPane tp) {
 		this.TextPane = tp;

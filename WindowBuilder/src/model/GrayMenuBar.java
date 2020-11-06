@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.Box;
 
 public class GrayMenuBar extends MenuBar {
-private Color bgColor;
+	private Color bgColor;
 	
 	public GrayMenuBar() {
 		this.bgColor = Color.GRAY;

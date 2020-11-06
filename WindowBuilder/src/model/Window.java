@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import pattern.WindowImp;
 
 public abstract class Window {
-	WindowImp windowimp;
+	private WindowImp windowimp;
 	
 	public Window(WindowImp imp) {
 		this.windowimp = imp;

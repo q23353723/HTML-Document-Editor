@@ -3,10 +3,10 @@ package model;
 
 import pattern.Visitor;
 
-public class character extends Glyph {
+public class Character extends Glyph {
 	String c;
 	
-	public character(String c) {
+	public Character(String c) {
 		this.c = c;
 	}
 	

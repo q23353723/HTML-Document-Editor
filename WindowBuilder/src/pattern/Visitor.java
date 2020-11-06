@@ -8,11 +8,11 @@ import model.Italic;
 import model.Paragraph;
 import model.Span;
 import model.UnderLine;
-import model.character;
+import model.Character;
 
 public interface Visitor {
 	void visit(Body body);
-	void visit(character c);
+	void visit(Character c);
 	void visit(Paragraph paragraph);
 	void visit(Span span);
 	void visit(Italic italic);

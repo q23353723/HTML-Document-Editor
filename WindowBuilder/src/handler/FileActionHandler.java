@@ -29,10 +29,10 @@ import model.MainWindow;
 
 
 public class FileActionHandler implements ActionListener {
-	CustomJTabbedPaneUI tabPane = null;
-	MainWindow window;
-	File file;
-	String text;
+	private CustomJTabbedPaneUI tabPane = null;
+	private MainWindow window;
+	private File file;
+	private String text;
 	
 	public FileActionHandler(MainWindow window) {
 		this.window = window;
