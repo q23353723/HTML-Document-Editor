@@ -3,11 +3,12 @@ package model;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
-
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -39,7 +41,7 @@ import pattern.WindowImp;
 
 public class MainWindow extends Window{
 	private JFrame frame;
-	private boolean Flag = true;
+	private static boolean Flag = true;
 	//Create Abstract Factory
 	WidgetFactory widgetfactory = WidgetFactoryProducer.getFactory(this.getSystemName());
 	
@@ -79,6 +81,21 @@ public class MainWindow extends Window{
         //加上Label
 		status.setText("字數: 0");
 		frame.getContentPane().add(status, BorderLayout.AFTER_LAST_LINE);
+		
+		//Test
+		textPane.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	HTMLDocument doc = (HTMLDocument) textPane.getDocument();
+		    	  try {
+		    		  //doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), "&nbsp;");
+		    		  textPane.getDocument().insertString(textPane.getCaretPosition(),"&nbsp;", null);
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+            }
+        });
 	}
 	
 	
@@ -360,17 +377,23 @@ public class MainWindow extends Window{
     		
 	        @Override
 	        public void removeUpdate(DocumentEvent e) {
-	        	setTextPane(t);
+	        	if(Flag) {
+	        		setTextPane(t);
+	        	}
 	        }
 
 	        @Override
 	        public void insertUpdate(DocumentEvent e) {
-	        	setTextPane(t);
+	        	if(Flag) {
+	        		setTextPane(t);
+	        	}
 	        }
 
 	        @Override
 	        public void changedUpdate(DocumentEvent e) {
-	        	//setTextPane(t);
+	        	if(Flag) {
+	        		setTextPane(t);
+	        	}
 	        }
 	    });
     }
@@ -405,17 +428,6 @@ public class MainWindow extends Window{
 							e1.printStackTrace();
 						}
 				      }
-					if (e.getKeyCode() == 32) {
-				    	  HTMLDocument doc = (HTMLDocument) jtp.getDocument();
-				    	  try {
-				    		  Flag = false;
-				    		  jtp.getDocument().insertString(jtp.getCaretPosition(),"&nbsp;", null);
-				    		  Flag = true;
-						} catch (BadLocationException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} 
-				      }
 				}
 		     } 
 		    }); 
@@ -423,6 +435,8 @@ public class MainWindow extends Window{
 	
 	//當每次觸發action時將Glyph parse成HTML設定到TextPane上
 	public void setTextPane(JTextPane jtp){
+		HTMLparser parser = new HTMLparser(jtp.getText());
+		parser.parseToGlyph();
         if(Flag) {
             Runnable doAssist = () -> {
                 // 暫停監聽
@@ -431,15 +445,12 @@ public class MainWindow extends Window{
                 CountVisitor countvisitor = new CountVisitor();
 	        	PrintVisitor printvisitor = new PrintVisitor();
 	        	
-	        	//將Glyph parse成HTML
-	        	HTMLparser parser = new HTMLparser(jtp.getText());
-				parser.parseToGlyph();
 	        	parser.getGlyphs().accept(countvisitor);
 				parser.getGlyphs().accept(printvisitor);
 				status.setText("字數: " + Integer.toString(countvisitor.getcharCount()));
                 // 將Glyph parse to HTML並set到TextPane
+				
 				jtp.setText("<html><head></head>" + printvisitor.getHTML() + "</html>");
-                
                 // 重新監聽
                 Flag = true;
             };

@@ -29,6 +29,8 @@ public class HTMLparser {
 		Document doc = Jsoup.parse(html);
 		Element body = doc.body();
 		
+		System.out.println("--------------------");
+		System.out.println(body);
 		Glyphs = iteration(body, "");
 		
 		System.out.println("");
@@ -47,13 +49,17 @@ public class HTMLparser {
 	
 	public Glyph iteration(Node e, String spacer) {
 		if(e instanceof Element) { //if node is Element
+			System.out.print("這是" + ((Element)e).tagName() + "標籤");
 			Glyph glyphs = SimpleFactory.createGlyph(((Element)e).tagName(),((Element)e).attributes()); //Create Glyph by tag name of Element
 			for(Node child: e.childNodes()) { //foreach node child
 				if(child instanceof TextNode && child != null) { // if child is textnode
 					//System.out.println(((TextNode)child).text());
-					for(String c: eliminateBlank(((TextNode)child).text()).split("")) {
+					System.out.println("未處理:" + ((TextNode)child).toString() + "結尾");
+					System.out.println("已處理:" + eliminateBlank(((TextNode)child).toString()) + "結尾");
+					for(String c: eliminateBlank(((TextNode)child).toString()).split("")) {
 						System.out.print(c);
 						if(c.equals(" ")) {
+							System.out.println("有插");
 							glyphs.add(new character("&nbsp;"));
 						}
 						else glyphs.add(new character(c));
@@ -88,8 +94,6 @@ public class HTMLparser {
 	}
 	
 	public String eliminateBlank(String str) {
-		str = str.replaceAll(" ","").replaceAll("&nbsp;", " ");
-		System.out.print(str);
-		return str;
+		return str.replaceAll(" ","").replaceAll("(&nbsp;)|(&#160;)|(&amp;nbsp;)", " ");
 	}
 }
