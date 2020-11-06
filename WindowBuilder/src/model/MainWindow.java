@@ -57,7 +57,7 @@ public class MainWindow extends Window{
 		super(imp);
 		//由imp實作drawFrame並這邊只負責設定Frame
 		frame = this.drawFrame();
-		frame.setTitle("HTML Editor");
+		frame.setTitle("HTML Document Editor");
 		frame.setBounds(100, 100, 1080, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
